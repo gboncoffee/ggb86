@@ -1,0 +1,5 @@
+/bios_x86
+/dumb_kernel.o
+/kernel
+/kernel_entry.o
+/os_image.img
