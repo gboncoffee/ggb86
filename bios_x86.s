@@ -6,6 +6,14 @@ _start:
 	mov sp, 0x9000
 	mov bp, sp
 
+	; Enable a20.
+	mov ax, 0x2401 
+	int 0x15 
+	mov ax, 0x2402 
+	int 0x15 
+	cmp al, 1
+	jne a20_panic
+
 	; Set video mode.
 	mov ah, 0x0
 	mov al, 0x3
@@ -60,6 +68,12 @@ disk_panic:
 sectors_panic:
 	mov si, sectors_panic_msg
 	mov cx, SECTORS_PANIC_MSG_SIZE
+	call print_string
+	jmp panic
+
+a20_panic:
+	mov si, a20_panic_msg
+	mov cx, A20_PANIC_MSG_SIZE
 	call print_string
 	jmp panic
 
@@ -127,14 +141,17 @@ init32:
 
 bits 16
 
-BOOT_ENTRY_MSG_SIZE equ 78
-boot_entry_msg: db "GGB86 - Gabriel's Good Bootloader for x86", 13, 10, "Copyright (C) Gabriel G. de Brito", 13, 10
+BOOT_ENTRY_MSG_SIZE equ 85
+boot_entry_msg: db "GGB86 - Gabriel's Good Bootloader for x86", 13, 10, "Copyright (C) 2023 - Gabriel G. de Brito", 13, 10
 
 DISK_PANIC_MSG_SIZE equ 57
 disk_panic_msg: db "FATAL: could not read from the disk with BIOS services.", 13, 10
 
 SECTORS_PANIC_MSG_SIZE equ 63
 sectors_panic_msg: db "FATAL: could not read 2 sectors from disk with BIOS services.", 13, 10
+
+A20_PANIC_MSG_SIZE equ 65
+a20_panic_msg: db "FATAL: could not enable the a20 address port with BIOS services", 13, 10
 
 KERNEL_ADDR equ 0x1000
 boot_drive: db 0
