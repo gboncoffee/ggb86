@@ -6,6 +6,11 @@ _start:
 	mov sp, 0x9000
 	mov bp, sp
 
+	; Set video mode.
+	mov ah, 0x0
+	mov al, 0x3
+	int 0x10
+
 	; Clear the screen.
 	mov ah, 0x6
 	mov al, 0
