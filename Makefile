@@ -1,5 +1,6 @@
 os_image32.img: bios_x86 kernel32
 	cat $^ > $@
+	truncate $@ -s 16K
 
 bios_x86: bios_x86.s
 	nasm -f bin $^ -o $@

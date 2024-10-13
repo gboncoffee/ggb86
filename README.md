@@ -23,14 +23,13 @@ The script `boot.sh` launches the image in a QEMU-KVM virtual machine.
 The FAT filesystem itself has as header a `jmp` instruction so bootloaders keep
 working (I don't know if they would be very useful otherwise...). So the first
 sector of the disk image has the FAT stuff and the bootloader. In the FAT
-metadata, 11 sectors are reserved, being the first three:
+metadata, 32 sectors are reserved, being the first three:
 
 - First: FAT metadata and the bootloader;  
 - Second: FSInfo struct of FAT 32;  
 - Third: Reserved for the root directory.
 
-The remaining 8 (it's 8 + 3 because 8 was the maximum I managed to get working
-on QEMU) are reserved for the kernel, which could also be a second stage
+The remaining 29 are reserved for the kernel, which could also be a second stage
 bootloader. The entry of the kernel should of course be at the start of the
 fourth sector, as the bootloader loads those 8 sectors to the address `0x1000`
 and simply jumps there.

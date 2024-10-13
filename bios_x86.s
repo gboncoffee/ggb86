@@ -11,10 +11,9 @@ sectors_per_cluster:
 	db 1
 reserved_sectors:
 	; We use 2 sectors for the FAT 32 signature + boot loader itself, and
-	; another one for the root directory. So the kernel has 8 sectors for
+	; another one for the root directory. So the kernel has 29 sectors for
 	; it's code. The "kernel" may be a second stage bootloader of course.
-	; It's 8 because it was the maximum I got working on QEMU.
-	dw 11
+	dw 32
 fats:
 	db 1
 root_entries:
@@ -143,7 +142,7 @@ align 4
 disk_address_packet:
 	db 0x10
 	db 0
-	dw 8
+	dw 29
 	dw KERNEL_ADDR
 	dw 0
 	dd 3
@@ -198,7 +197,7 @@ init32:
 	mov ebp, 0x90000
 	mov esp, ebp
 	call KERNEL_ADDR
-	hlt
+	jmp $
 
 bits 16
 
