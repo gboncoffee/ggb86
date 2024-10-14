@@ -12,9 +12,9 @@ You'll need the Netwide Assembler (NASM) and the GNU C toolchain (GCC, LD and
 Make) to build. Also, your system needs a `cat` implementation in the `$PATH`.
 
 Use `make` to create everything: the bootloader and the dumb kernel, with both
-linked in the `os_image32.img` or `os_image64.img` file. The `bios_x86` or
-`bios_x86_64` file is just the MBR boot sector (i.e., the bootloader itself) and
-FAT boilerplate and the `kernel32` or `kernel64` is just the compiled kernel.
+linked in the `os_image32.img` file. The `bios_x86` file is just the MBR boot
+sector (i.e., the bootloader itself) and FAT boilerplate and the `kernel32` is
+just the compiled kernel.
 
 The script `boot.sh` launches the image in a QEMU-KVM virtual machine.
 
